@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mhmart/Src/const/AppImages.dart';
+import 'package:mhmart/Src/modules/HomeScreen/HomePage.dart';
 import 'package:mhmart/Src/modules/onBroading/views/OnBoardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,13 +13,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  
+  final _auth = FirebaseAuth.instance;
   @override
-  @override
+ 
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+      if(_auth.currentUser == null){
+        
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnBoardingScreen()));
+      }
+      else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+      }
     });
   }
   Widget build(BuildContext context) {
